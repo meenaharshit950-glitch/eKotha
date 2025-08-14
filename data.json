@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Himanshu Meena",
+    "age": 19,
+    "address": "Bundi, India",
+    "image": "kaalu.jpg",
+    "article": "Expert in giving blowjobs, best to seduce.",
+    "price": 150
+  },
+  {
+    "id": 2,
+    "name": "Pavan Meena",
+    "age": 25,
+    "address": "Raithal, Bundi",
+    "image": "pavan.jpg",
+    "article": "Kuch nhi aata benchod.",
+    "price": 200
+  },
+  {
+    "id": 3,
+    "name": "Nakshatra",
+    "age": 21,
+    "address": "Bundi, India",
+    "image": "kannu.jpg",
+    "article": "Jaise chodna hai waise chod, jaha chodna waha chodo, muh me bhi le lega.",
+    "price": 2000
+  }
+]

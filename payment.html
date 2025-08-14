@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Your Booking</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("images/bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .payment-container {
+      width: 90%;
+      max-width: 420px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+    h2, p { margin: 10px 0; color: white; }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+    }
+    .proceed-btn { background: #4caf50; }
+    .gpay-btn { background: #4285f4; }
+    .phonepe-btn { background: #5f259f; }
+    .upi-btn { background: #ff7043; }
+    #paymentOptions { display: none; margin-top: 20px; }
+    #upiArea img {
+      width: 220px;
+      height: 220px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <h2 id="profileName">Booking</h2>
+    <p id="profilePrice">Price: ₹0</p>
+
+    <!-- Booking Details Form -->
+    <input id="custName" placeholder="Your Name" required />
+    <input id="custPhone" placeholder="Phone Number" required />
+    <input id="custLocation" placeholder="Desired Location" required />
+    <button class="proceed-btn" id="proceedBtn">Proceed to Payment</button>
+
+    <!-- Payment Options -->
+    <div id="paymentOptions">
+      <button class="gpay-btn" id="gpayBtn">Pay with Google Pay</button>
+      <button class="phonepe-btn" id="phonepeBtn">Pay with PhonePe</button>
+      <button class="upi-btn" id="upiBtn">Pay with Any UPI App</button>
+      <div id="upiArea">
+        <div style="margin-top: 20px; font-weight: 600; color: white;">Or scan this QR to pay:</div>
+        <img src="QR.jpg" alt="My UPI QR Code" />
+        <div style="margin-top: 8px; color: white;">UPI ID: meenaharshit950@okicici</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const UPI_ID = "meenaharshit950@okicici";
+    const UPI_PAYEE_NAME = "Harshit Meena";
+
+    const params = new URLSearchParams(window.location.search);
+    const profileName = params.get("name") || "Booking";
+    const amount = params.get("price") || "0";
+
+    document.getElementById("profileName").innerText = profileName;
+    document.getElementById("profilePrice").innerText = `Price: ₹${amount}`;
+
+    function buildUpiUrl(upiId, payeeName, amt, transactionRef) {
+      const query = new URLSearchParams({
+        pa: upiId,
+        pn: payeeName || "",
+        am: amt,
+        cu: "INR",
+        tn: `Payment for ${profileName}`,
+      });
+      if (transactionRef) query.set("tr", transactionRef);
+      return `upi://pay?${query.toString()}`;
+    }
+
+    function startGPayPayment() {
+      const transactionRef = `TXN_${Date.now()}`;
+      const gpayUrl = `tez://upi/pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent("Payment for " + profileName)}&tr=${transactionRef}`;
+      window.location.href = gpayUrl;
+    }
+
+    function startPhonePePayment() {
+      const transactionRef = `TXN_${Date.now()}`;
+      const phonepeUrl = `phonepe://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent("Payment for " + profileName)}&tr=${transactionRef}`;
+      window.location.href = phonepeUrl;
+    }
+
+    function startGenericUpiPayment() {
+      const transactionRef = `TXN_${Date.now()}`;
+      const upiUrl = buildUpiUrl(UPI_ID, UPI_PAYEE_NAME, amount, transactionRef);
+      window.location.href = upiUrl;
+    }
+
+    document.getElementById("proceedBtn").addEventListener("click", () => {
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const location = document.getElementById("custLocation").value.trim();
+
+      if (!name || !phone || !location) {
+        alert("Please fill in all details before proceeding.");
+        return;
+      }
+
+      document.getElementById("paymentOptions").style.display = "block";
+      document.getElementById("proceedBtn").style.display = "none";
+    });
+
+    document.getElementById("gpayBtn").addEventListener("click", startGPayPayment);
+    document.getElementById("phonepeBtn").addEventListener("click", startPhonePePayment);
+    document.getElementById("upiBtn").addEventListener("click", startGenericUpiPayment);
+  </script>
+</body>
+</html>

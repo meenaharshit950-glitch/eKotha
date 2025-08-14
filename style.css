@@ -1,0 +1,134 @@
+/* ===== Background with Dark Overlay ===== */
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  background: url('images/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+/* Dark overlay + extra blur for macOS feel */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  z-index: -1;
+}
+
+/* ===== Page Title ===== */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* ===== Profile Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* ===== Card Style (Glassmorphism) ===== */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(15px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.5);
+}
+
+/* Card Image */
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* Card Text */
+.card p {
+  padding: 12px;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.card p b {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ===== Detail Page Glass Panel ===== */
+.details {
+  max-width: 800px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(15px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.4);
+}
+
+.details img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.details h2 {
+  margin-top: 15px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.details p {
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ===== Book Button ===== */
+.book-btn {
+  display: inline-block;
+  background: #e50914;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 20px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.book-btn:hover {
+  background: #f40612;
+}
+
+/* ===== Mobile Adjustments ===== */
+@media (max-width: 600px) {
+  .card img {
+    height: 200px;
+  }
+}
